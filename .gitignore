@@ -10,3 +10,6 @@ downloads/
 __pycache__/
 *.pyc
 .cache/
+
+# linker version scripts are source files
+!user/*.map

@@ -1,0 +1,12 @@
+GLIBC_2.2.5 {
+    global:
+        dlopen;
+        dlsym;
+        dlvsym;
+        dlclose;
+        dlerror;
+        dladdr;
+        dlinfo;
+    local:
+        *;
+};

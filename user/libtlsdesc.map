@@ -1,0 +1,8 @@
+NOVA_TLSDESC_1.0 {
+    global:
+        nova_tlsdesc_value;
+        nova_tlsdesc_get;
+        nova_tlsdesc_set;
+    local:
+        *;
+};

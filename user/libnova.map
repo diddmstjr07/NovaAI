@@ -1,0 +1,6 @@
+NOVA_1.0 {
+    global:
+        nova_shared_probe;
+    local:
+        *;
+};

@@ -1,0 +1,12 @@
+NOVA_TLS_1.0 {
+    global:
+        nova_tls_value;
+        nova_tls_get;
+        nova_tls_set;
+        nova_tls_address;
+        nova_tls_gd_value;
+        nova_tls_gd_get;
+        nova_tls_gd_set;
+    local:
+        *;
+};

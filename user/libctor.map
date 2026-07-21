@@ -1,0 +1,6 @@
+NOVA_CTOR_1.0 {
+    global:
+        nova_constructor_state;
+    local:
+        *;
+};

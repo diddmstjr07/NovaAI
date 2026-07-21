@@ -1,0 +1,16 @@
+GLIBC_2.2.5 {
+    global:
+        fabs; copysign; sqrt;
+        floor; ceil; trunc; round; rint; nearbyint;
+        sin; cos; tan; asin; acos; atan; atan2;
+        log; log2; log10; log1p;
+        exp; exp2; expm1; pow;
+        scalbn; ldexp; fmod; remainder; hypot;
+        sinh; cosh; tanh; cbrt; modf; frexp; nextafter;
+        __isnan; __isinf; __finite; isnan; isinf; finite;
+        sqrtf; sinf; cosf; tanf; asinf; acosf; atanf; atan2f;
+        logf; log2f; log10f; expf; exp2f; powf;
+        floorf; ceilf; truncf; roundf; fabsf; fmodf; hypotf;
+    local:
+        *;
+};
