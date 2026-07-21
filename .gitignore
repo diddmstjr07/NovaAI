@@ -1,0 +1,11 @@
+build/
+*.img
+*.bin
+*.elf
+*.o
+*.map
+
+# large downloads / caches
+downloads/
+__pycache__/
+*.pyc
