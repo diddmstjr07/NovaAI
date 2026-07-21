@@ -95,6 +95,9 @@ brew install nasm qemu x86_64-elf-gcc
 ./build.sh clean    # 빌드 결과 삭제
 ```
 
+`downloads/`는 저장소에 포함하지 않습니다. Chrome `.deb`는 Nova Browser의 `Get Chrome`
+버튼이나 Terminal의 `download` 명령으로 직접 받아 `downloads/`에 두면 `build`가 인식합니다.
+
 게스트는 1024 x 768로 렌더링하며 QEMU가 Mac 화면 크기에 맞게 확대합니다.
 QEMU가 키보드와 마우스를 잡으면
 `Control + Option + G`로 해제할 수 있습니다. macOS 전체 화면은 `Control + Command + F`로
