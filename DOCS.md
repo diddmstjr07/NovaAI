@@ -38,8 +38,12 @@ tools/
     ├── web.py            Page/Link 구조체, HTML 파싱, 링크 추출
     ├── downloads.py      스트리밍 다운로드
     ├── model.py          모델 호출
+    ├── vm_control.py     호스트에서 게스트 VM 켜기/끄기 (VM 클래스)
     └── capabilities.py   현재 탑재 기능 등록
 ```
+
+`vm_control`만 브릿지와 무관한 **호스트 측 도구**입니다. TCP 프로토콜을 타지 않고
+QEMU 프로세스를 직접 관리하므로, 브릿지가 떠 있지 않아도 단독으로 씁니다.
 
 ### 전체 흐름
 
@@ -350,6 +354,53 @@ NovaBridge(host, port)
 
 Session:  bridge, peer, state
 ```
+
+### `nova.vm_control`
+
+호스트에서 게스트 VM(기본 `make run`)을 켜고 끕니다. 브릿지 프로토콜과는 별개이며,
+자식 PID를 `.cache/vm.pid`에 기록해 그것으로 정지와 상태 조회를 합니다.
+
+```python
+from nova.vm_control import VM
+
+vm = VM()                       # 기본: ["make", "run"], .cache/vm.pid
+vm.on()      -> int             # 켜고 PID 반환
+vm.off()     -> bool            # 끄기
+vm.toggle()  -> str             # 반전 후 새 상태("on"/"off")
+vm.status    -> str             # "running" | "stopped" | "unknown"
+vm.is_on     -> bool
+vm.pid       -> int | None      # 실행 중이 아니면 None
+```
+
+생성자로 명령과 경로를 바꿀 수 있어 **VM을 여러 개 따로 다룰 수 있습니다.**
+
+```python
+VM(command=["qemu-system-x86_64", "-m", "512"],
+   pidfile=Path("/tmp/alt.pid"))
+```
+
+#### 멱등 vs 엄격
+
+| | 메서드 | 이미 그 상태일 때 |
+|---|---|---|
+| **멱등** | `on` / `off` / `toggle` | 성공 — `on`은 기존 PID 반환, `off`는 `True` |
+| **엄격** | `start` / `stop` / `restart` | `start`는 `RuntimeError`, `stop`은 `False` |
+
+호출부에서 상태를 확인하고 싶지 않다면 `on`/`off`를 쓰십시오. "원하는 상태로 만든다"는
+의미라 그대로 부르면 됩니다.
+
+#### CLI
+
+```sh
+python3 -m nova.vm_control on|off|toggle|status|start|stop|restart
+python3 -m nova.vm_control run -- qemu-system-x86_64 -m 512
+```
+
+정지는 SIGINT → SIGTERM → SIGKILL 순으로 단계를 올려 QEMU가 남지 않게 합니다.
+로그는 `.cache/vm.log`에 append 되며, `.cache/`는 git에 추적되지 않습니다.
+
+> IDE나 컨테이너 등 **다른 방법으로 띄운 VM은 관리하지 않습니다.** pidfile에 적힌
+> 프로세스만 대상입니다.
 
 ---
 

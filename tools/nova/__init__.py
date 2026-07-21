@@ -21,6 +21,7 @@ See `tools/README_API.md` for the full guide.
 from .bridge import AIFunction, NovaBridge, Session
 from .wire import Reply, compact_text
 from .web import Link, Page
+from .vm_control import VM
 from . import capabilities, downloads, model, net, web, wire
 
 __all__ = [
@@ -28,4 +29,5 @@ __all__ = [
     "Reply", "compact_text",
     "Page", "Link",
     "capabilities", "downloads", "model", "net", "web", "wire",
+    "VM"
 ]
